@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IFE JavaScript Task 01</title>
+</head>
+<body>
+    <ul id="source">
+        <li>北京空气质量：<b>90</b></li>
+        <li>上海空气质量：<b>70</b></li>
+        <li>天津空气质量：<b>80</b></li>
+        <li>广州空气质量：<b>50</b></li>
+        <li>深圳空气质量：<b>40</b></li>
+        <li>福州空气质量：<b>30</b></li>
+        <li>成都空气质量：<b>90</b></li>
+    </ul>
+    <ul id="resort">
+        <!--
+            <li>第一名：北京空气质量：<b>90</b></li>
+            <li>第一名：北京空气质量：<b>90</b></li>
+            <li>第一名：北京空气质量：<b>90</b></li>
+        -->
+    </ul>
+    <button id="sort-button">排序</button>
+    <script type="text/javascript">
+        function getData(){
+            var myArray = [];
+            var li = document.getElementsByTagName("li");
+            for(var i=0;i<li.length;i++){
+                var textValue = li[i].innerText;
+                // 取得字符串
+                var text = textValue.slice(0,2);
+                var score = textValue.slice(7);
+                // 加入一个二维数组
+                myArray.push([text,score]);
+            }
+            return myArray;
+        }
+        function sortAqiData(myArray){
+            // 从大到小的排序
+            for(var i=0;i<myArray.length;i++){
+                for(var j=i+1;j<myArray.length;j++){
+                    if(myArray[i][1]<myArray[j][1]){
+                        var z = myArray[j];
+                        myArray[j] = myArray[i];
+                        myArray[i] = z;
+                    }
+                }
+            }
+            return myArray;
+        }
+        // 调用getData方法
+        sortAqiData(getData());
+        function render(myArray){
+            for(var i=0;i<myArray.length;i++){
+                var li = document.createElement("li");
+                var ul = document.getElementById("resort");
+                ul.appendChild(li);
+                li.innerHTML = "第" + (i+1) + "名：" + myArray[i][0] + "空气质量：" + "<b>" + myArray[i][1] + "</b>"; 
+            }
+            return myArray;
+        }
+        function btnHandle(){
+            var aqiData = getData();
+            aqiData = sortAqiData(aqiData);
+            render(aqiData);
+        }
+        function init(){
+            var btn = document.getElementById("sort-button");
+            btn.addEventListener("click",btnHandle,false);
+        }
+        init();
+    </script>
+</body>
+</html>
